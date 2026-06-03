@@ -30,18 +30,29 @@ limites. (Ver `.claude/agents/README.md`.)
    passos. Marque o que precisa de decisão humana.
 
 ## Mapa de roteamento
-- Código C++, memória, performance → `engenheiro-cpp`
+
+**Núcleo de domínio JM NFE:**
+- Perícia, cálculo trabalhista, FGTS/INSS, liquidação, auditoria de holerite, assistência
+  técnica → `perito-calculista-trabalhista` (o motor de autoridade da empresa)
+- Contábil, tributário, fluxo de caixa, precificação, regularização → `consultor-contabil-tributario`
+- Organização, processos, indicadores, CRM, operação interna → `consultor-administrativo`
+- Conteúdo técnico, SEO jurídico, autoridade, captação → `conteudo-seo-juridico`
+
+**Negócios:**
+- Posicionamento, escada de produto, estratégia → `estrategista-produto`
+- Marca, identidade, site, aquisição → `growth-marketing`
+- Vender, parcerias, receita recorrente → `vendas-receita`
+- Custos, preço, viabilidade da própria JM NFE → `financeiro-fpa`
+- Lei, contrato, LGPD, fronteiras profissionais → `juridico-compliance` (tem poder de veto)
+- Métricas, análise, decisão por dados → `dados-analytics`
+
+**Tecnologia e IA (braço de escala — Fase 3):**
 - Estrutura, módulos, trade-offs de design → `arquiteto-software`
+- Código C++/sistemas, automação, ferramentas → `engenheiro-cpp`
 - Testes, qualidade, regressão → `qa-testes`
 - Vulnerabilidades, dados sensíveis no código → `seguranca-appsec`
-- Build, CI, automação → `devops-sre`
+- Build, CI, automação de deploy → `devops-sre`
 - Revisar um diff/PR → `code-reviewer`
-- O que construir e por quê → `estrategista-produto`
-- Posicionamento, aquisição → `growth-marketing`
-- Vender, funil, receita → `vendas-receita`
-- Custos, preço, viabilidade → `financeiro-fpa`
-- Lei, contrato, LGPD, risco legal → `juridico-compliance` (tem poder de veto)
-- Métricas, análise, decisão por dados → `dados-analytics`
 
 ## Entregável
 Um plano em etapas numeradas: objetivo, subtarefas com responsável (agente), ordem,

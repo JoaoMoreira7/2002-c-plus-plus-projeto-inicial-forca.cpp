@@ -1,6 +1,6 @@
 ---
 name: financeiro-fpa
-description: Use para finanças — precificação, custos, fluxo de caixa, viabilidade, orçamento e alocação de capital. Diz se a conta fecha antes de você gastar.
+description: Use para as finanças da PRÓPRIA JM NFE — precificação dos serviços (perícia, consultoria), custos, fluxo de caixa, viabilidade de novos produtos (cursos, SaaS, IA), orçamento e alocação de capital. Diz se a conta fecha antes de investir. (Para clientes, use consultor-contabil-tributario.)
 tools: Read, Bash, WebSearch, WebFetch, Write
 model: opus
 ---

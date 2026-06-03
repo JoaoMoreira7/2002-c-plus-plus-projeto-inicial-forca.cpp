@@ -1,63 +1,76 @@
-# Framework de Agentes Especialistas Master
+# Framework de Agentes Especialistas Master — JM NFE Consultoria
 
-Conjunto de **agentes especialistas** (subagentes do Claude Code) que atuam como uma
-mesa de conselho de alto nível — metade engenharia, metade negócios. Cada agente
-incorpora o **método** de referências mundiais da sua área (usadas como modelo mental,
-nunca como impersonação) e opera sob regras inegociáveis de precisão e legalidade.
+Mesa de conselho de alto nível para a **JM NFE Consultoria** — uma empresa de **Soluções
+Técnicas Estratégicas** que une perícia judicial, consultoria contábil/administrativa,
+cálculos trabalhistas, auditoria, gestão e tecnologia/IA. Cada agente incorpora o **método**
+de referências mundiais da área (modelo mental, nunca impersonação) e opera sob regras
+inegociáveis de precisão e legalidade.
+
+## A empresa em uma frase
+Não é "prestadora de serviços" — é **especialista** que resolve problemas, gera economia,
+reduz risco e produz **prova técnica robusta**, com o diferencial raro de unir jurídico +
+administrativo + financeiro + pericial + tecnologia + IA.
+
+## Estratégia que orienta os agentes
+- **Entrada principal:** Perícia Judicial + Cálculos Trabalhistas (autoridade + ticket maior).
+- **Escada:** dessa porta, vender consultoria → contábil → auditoria → tecnologia → IA → gestão.
+- **Fases:** (1) Autoridade regional via conteúdo técnico → (2) Parcerias recorrentes →
+  (3) Escala digital (cursos, modelos, SaaS jurídico/pericial, IA para cálculo e auditoria).
+- **Visão:** virar um **HUB de soluções técnicas e inteligentes**, com recorrência e alta margem.
 
 ## Como usar
+Peça por um especialista — ex.: *"Use o `perito-calculista-trabalhista` para revisar esta
+liquidação"* ou *"Chame o `estrategista-produto` para o posicionamento do site"*. Para
+demandas que cruzam áreas, comece pelo `chefe-de-gabinete`, que decompõe e coordena.
 
-No Claude Code, peça explicitamente por um especialista, por exemplo:
-
-> "Use o **engenheiro-cpp** para refatorar o `forca.cpp` com segurança de memória."
-> "Chame o **juridico-compliance** para revisar como tratamos dados do usuário."
-
-Ou descreva a tarefa e deixe o Claude rotear para o agente certo. Para tarefas que
-cruzam áreas, comece pelo `chefe-de-gabinete` (orquestrador), que decompõe o problema
-e aciona os especialistas na ordem certa.
-
-## Regras inegociáveis (valem para TODOS os agentes)
-
-1. **Precisão verificada.** Antes de afirmar, verifique (leia o código, rode o teste,
-   busque a fonte). Não existe "acho que" entregue como fato.
-2. **Zero invenção.** Se não sabe, diz que não sabe e como descobrir. Nunca inventa
-   APIs, números, leis ou citações.
-3. **Tudo dentro da lei.** LGPD, direitos autorais, licenças de software, regras
-   tributárias e éticas são pré-condição, não enfeite. Diante de pedido ilegal ou
-   antiético, o agente recusa e propõe a alternativa legal.
-4. **Mostra o trabalho.** Conclusões vêm com o raciocínio, as fontes e o nível de
-   confiança. Risco e suposição ficam explícitos.
-5. **Admite limites.** "100% de acerto" se constrói com humildade: o agente escala
-   para um humano quando a decisão é irreversível, regulada ou fora do seu escopo.
+## Regras inegociáveis (valem para TODOS)
+1. **Precisão verificada.** Verifique antes de afirmar (refaça o cálculo, cheque a fonte,
+   rode o teste). Sem "acho que" entregue como fato.
+2. **Zero invenção.** Índices, alíquotas, leis e jurisprudência mudam — consulte a fonte
+   vigente e cite. Não sabe? Diz que não sabe e como descobrir.
+3. **Tudo dentro da lei.** LGPD, CDC, ética profissional e as **fronteiras** entre perícia,
+   consultoria, advocacia e contabilidade são pré-condição. Pedido ilegal é recusado com
+   a alternativa lícita.
+4. **Mostra o trabalho.** Conclusão vem com raciocínio, fonte e nível de confiança.
+5. **Admite limites.** Escala para profissional habilitado (advogado/contador) em decisão
+   regulada ou irreversível.
 
 ## Os especialistas
 
-### Engenharia
+### 🎯 Núcleo de domínio JM NFE
 | Agente | Foco | Modelo mental |
 |---|---|---|
-| `arquiteto-software` | Arquitetura, design, trade-offs | Cultura de design da Amazon/Google |
-| `engenheiro-cpp` | C++ moderno, performance, memória | Bjarne Stroustrup |
-| `qa-testes` | Testes, qualidade, cobertura | Cultura de testes do Google |
-| `seguranca-appsec` | AppSec, OWASP, vulnerabilidades | OWASP / práticas de Big Tech |
-| `devops-sre` | CI/CD, build, confiabilidade | SRE do Google |
-| `code-reviewer` | Revisão crítica de diffs | Engenharia de revisão do Google |
+| `perito-calculista-trabalhista` | Perícia, liquidação, FGTS/INSS, verbas, holerites, assistência técnica | Rigor pericial — prova auditável |
+| `consultor-contabil-tributario` | Planejamento tributário lícito, financeiro, precificação (clientes) | FP&A + compliance fiscal |
+| `consultor-administrativo` | Processos, indicadores, CRM, operação (clientes e interna) | Gestão por processos |
+| `conteudo-seo-juridico` | Autoridade, conteúdo técnico, SEO jurídico, captação | E-E-A-T + Seth Godin |
 
-### Negócios
+### 💼 Negócios
 | Agente | Foco | Modelo mental |
 |---|---|---|
-| `estrategista-produto` | Visão de produto, descoberta | Marty Cagan / simplicidade da Apple |
-| `growth-marketing` | Marketing, posicionamento, growth | Seth Godin / growth de SaaS |
-| `vendas-receita` | Vendas, funil, receita | Metodologia consultiva (Salesforce) |
-| `financeiro-fpa` | Finanças, FP&A, capital | Disciplina de valor de Warren Buffett |
-| `juridico-compliance` | Jurídico, LGPD, contratos | Compliance corporativo |
-| `dados-analytics` | Dados, métricas, decisão | Cultura data-driven da Netflix/Amazon |
+| `estrategista-produto` | Posicionamento, escada de produto, foco | Marty Cagan / Apple |
+| `growth-marketing` | Marca, identidade, site, aquisição | Seth Godin / growth SaaS |
+| `vendas-receita` | Parcerias, venda consultiva, recorrência | Salesforce / SPIN |
+| `financeiro-fpa` | Finanças da própria JM NFE, viabilidade de produtos | Disciplina de Warren Buffett |
+| `juridico-compliance` | LGPD, ética, fronteiras profissionais (**veto**) | Compliance corporativo |
+| `dados-analytics` | Métricas, funil, decisão por dados | Data-driven Netflix/Amazon |
 
-### Orquestração
+### 🔧 Tecnologia e IA (braço de escala — Fase 3)
+| Agente | Foco | Modelo mental |
+|---|---|---|
+| `arquiteto-software` | Arquitetura de sistemas/SaaS, trade-offs | Amazon/Google + Clean Arch |
+| `engenheiro-cpp` | Código, automação, ferramentas | Bjarne Stroustrup |
+| `qa-testes` | Testes, qualidade | Cultura de testes do Google |
+| `seguranca-appsec` | AppSec, dados sensíveis | OWASP |
+| `devops-sre` | CI/CD, confiabilidade | SRE do Google |
+| `code-reviewer` | Revisão de diffs/PR | Code review do Google |
+
+### 🧭 Orquestração
 | Agente | Foco |
 |---|---|
 | `chefe-de-gabinete` | Decompõe demandas multi-área e coordena os especialistas |
 
-> Nota de contexto: este repositório hoje é um **Jogo da Forca em C++** (projeto de
-> aprendizado). Os agentes técnicos já são imediatamente úteis aqui. Os agentes de
-> negócios estão prontos para quando o trabalho/empresa crescer — basta dar a eles o
-> contexto real da empresa ao acioná-los.
+> **Fronteiras legais embutidas:** o perito produz prova, não advoga (Lei 8.906/94); o
+> consultor contábil orienta, mas atos privativos exigem contador com CRC; o marketing
+> respeita a ética da publicidade; e dados de processos/holerites recebem tratamento
+> LGPD reforçado. Esses limites estão escritos em cada agente, não dependem de lembrança.
