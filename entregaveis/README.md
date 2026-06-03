@@ -15,6 +15,8 @@ legais embutidos: sem promessa de resultado, fronteira perícia/advocacia/contab
 | 07 | `07-planilha-liquidacao-avancada.xlsx` | perito-calculista-trabalhista | Liquidação com **atualização por competência (PROCV)** |
 | 08 | `08-processos-internos.md` | consultor-administrativo | CRM, fluxo de atendimento, proposta, checklists |
 | 09 | `ferramentas/extrator_liquidacao.py` | perito + tech/IA | Lê o PDF do processo e extrai os dados da liquidação (Claude API) |
+| 10 | `10-manual-prestador-servicos.md` | vendas + financeiro + admin | Manual do perito: captação, preço, execução e organização |
+| 11 | `11-controle-operacao.xlsx` | consultor-administrativo | Pipeline de clientes + prazos + recebíveis + painel |
 | — | `site/` | growth-marketing + design | Site institucional (HTML + CSS) com a identidade |
 
 ## Ferramenta de IA (extrator de liquidação)
