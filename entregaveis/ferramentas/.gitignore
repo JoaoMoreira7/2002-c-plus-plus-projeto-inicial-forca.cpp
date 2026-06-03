@@ -5,3 +5,6 @@ __pycache__/
 *_liquidacao_preenchida.xlsx
 _resumo_lote.csv
 _teste_*.xlsx
+
+.venv/
+demo/
