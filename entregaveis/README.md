@@ -14,7 +14,15 @@ legais embutidos: sem promessa de resultado, fronteira perícia/advocacia/contab
 | 06 | `06-tabelas-indices-2026-e-metodologia.md` | perito-calculista-trabalhista | Tabelas 2026 + metodologia de índice por período |
 | 07 | `07-planilha-liquidacao-avancada.xlsx` | perito-calculista-trabalhista | Liquidação com **atualização por competência (PROCV)** |
 | 08 | `08-processos-internos.md` | consultor-administrativo | CRM, fluxo de atendimento, proposta, checklists |
+| 09 | `ferramentas/extrator_liquidacao.py` | perito + tech/IA | Lê o PDF do processo e extrai os dados da liquidação (Claude API) |
 | — | `site/` | growth-marketing + design | Site institucional (HTML + CSS) com a identidade |
+
+## Ferramenta de IA (extrator de liquidação)
+`ferramentas/extrator_liquidacao.py` lê o **PDF inteiro** do processo e extrai, em JSON
+estruturado + relatório de conferência, os dados para a liquidação (partes, contrato,
+ajuizamento, verbas com período/reflexos, FGTS, critério de correção/juros — com
+trechos-fonte). Pode pré-preencher a planilha 07. Princípio: **a IA propõe, o perito decide**.
+Ver `ferramentas/README.md` para instalação (`ANTHROPIC_API_KEY`) e uso.
 
 ## Como usar o site
 Abra `site/index.html` no navegador. Antes de publicar, substitua os placeholders
