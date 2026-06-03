@@ -332,11 +332,76 @@ def preencher_planilha(d: DadosLiquidacao, modelo_xlsx: Path, destino_xlsx: Path
 
 
 # ----------------------------------------------------------------------------
-# 7) CLI
+# 7) PROCESSAMENTO DE UM PDF (reutilizável por modo único e modo lote)
+# ----------------------------------------------------------------------------
+def montar_conteudo(pdf: Path, pdf_nativo: bool):
+    """Devolve o conteúdo do usuário: texto extraído OU blocos com o PDF nativo."""
+    if pdf_nativo:
+        return [
+            {"type": "document",
+             "source": {"type": "base64", "media_type": "application/pdf",
+                        "data": pdf_como_base64(pdf)}},
+            {"type": "text", "text": USER_INSTRUCAO.replace("=== DOCUMENTO DO PROCESSO ===", "")},
+        ]
+    texto = extrair_texto_pdf(pdf)
+    if len(texto) < 200:
+        print(f"AVISO ({pdf.name}): pouco texto extraído — pode ser escaneado. "
+              "Reexecute com --pdf-nativo.", file=sys.stderr)
+    if len(texto) > 600_000:
+        print(f"AVISO ({pdf.name}): documento muito grande; recorte as peças relevantes.",
+              file=sys.stderr)
+    return texto
+
+
+def processar_um(pdf: Path, out: Path, modelo: str, pdf_nativo: bool,
+                 planilha: Optional[Path]) -> dict:
+    """Processa um PDF; grava JSON + relatório (+ planilha) e devolve um resumo."""
+    base = pdf.stem
+    conteudo = montar_conteudo(pdf, pdf_nativo)
+    print(f"[{pdf.name}] extraindo com {modelo}...", file=sys.stderr)
+    dados, uso = extrair_com_claude(conteudo, modelo)
+
+    json_path = out / f"{base}_extracao.json"
+    json_path.write_text(dados.model_dump_json(indent=2), encoding="utf-8")
+    md_path = out / f"{base}_relatorio.md"
+    md_path.write_text(gerar_relatorio_md(dados, pdf.name, uso), encoding="utf-8")
+    print(f"OK: {json_path}")
+    print(f"OK: {md_path}")
+
+    if planilha:
+        destino = out / f"{base}_liquidacao_preenchida.xlsx"
+        preencher_planilha(dados, planilha, destino)
+
+    return {
+        "arquivo": pdf.name,
+        "processo": dados.numero_processo or "",
+        "reclamante": dados.reclamante or "",
+        "verbas": len(dados.verbas_deferidas),
+        "campos_para_revisar": len(dados.campos_para_revisar),
+        "criterio_na_sentenca": bool(dados.criterio_definido_na_sentenca),
+    }
+
+
+def escrever_resumo_lote(resumos: List[dict], out: Path) -> Path:
+    import csv
+    caminho = out / "_resumo_lote.csv"
+    campos = ["arquivo", "processo", "reclamante", "verbas",
+              "campos_para_revisar", "criterio_na_sentenca"]
+    with caminho.open("w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=campos)
+        w.writeheader()
+        w.writerows(resumos)
+    return caminho
+
+
+# ----------------------------------------------------------------------------
+# 8) CLI (modo único e modo lote)
 # ----------------------------------------------------------------------------
 def main() -> None:
-    ap = argparse.ArgumentParser(description="Extrai dados de liquidação de um PDF de processo (JM NFE).")
-    ap.add_argument("pdf", type=Path, help="Caminho do PDF do processo.")
+    ap = argparse.ArgumentParser(
+        description="Extrai dados de liquidação de PDF(s) de processo (JM NFE).")
+    ap.add_argument("entrada", type=Path,
+                    help="PDF do processo OU pasta com vários PDFs (modo lote).")
     ap.add_argument("--out", type=Path, default=Path("."), help="Pasta de saída (padrão: atual).")
     ap.add_argument("--modelo", default=MODELO_PADRAO, help=f"Modelo Claude (padrão: {MODELO_PADRAO}).")
     ap.add_argument("--pdf-nativo", action="store_true",
@@ -345,51 +410,38 @@ def main() -> None:
                     help="Planilha 07 modelo (.xlsx) para pré-preencher uma cópia.")
     args = ap.parse_args()
 
-    if not args.pdf.exists():
-        sys.exit(f"PDF não encontrado: {args.pdf}")
+    if not args.entrada.exists():
+        sys.exit(f"Entrada não encontrada: {args.entrada}")
     args.out.mkdir(parents=True, exist_ok=True)
-    base = args.pdf.stem
 
-    # Monta o conteúdo do usuário (texto ou PDF nativo)
-    if args.pdf_nativo:
-        print("Modo PDF nativo: enviando o PDF ao modelo (escaneado).", file=sys.stderr)
-        conteudo = [
-            {"type": "document",
-             "source": {"type": "base64", "media_type": "application/pdf",
-                        "data": pdf_como_base64(args.pdf)}},
-            {"type": "text", "text": USER_INSTRUCAO.replace("=== DOCUMENTO DO PROCESSO ===", "")},
-        ]
-    else:
-        texto = extrair_texto_pdf(args.pdf)
-        if len(texto) < 200:
-            print("AVISO: pouco texto extraído — o PDF pode ser escaneado. "
-                  "Reexecute com --pdf-nativo.", file=sys.stderr)
-        if len(texto) > 600_000:
-            print("AVISO: documento muito grande; considere recortar as peças relevantes.",
-                  file=sys.stderr)
-        conteudo = texto
+    # MODO LOTE: a entrada é uma pasta -> processa todos os PDFs
+    if args.entrada.is_dir():
+        pdfs = sorted(args.entrada.glob("*.pdf")) + sorted(args.entrada.glob("*.PDF"))
+        if not pdfs:
+            sys.exit(f"Nenhum PDF encontrado em: {args.entrada}")
+        print(f"Modo lote: {len(pdfs)} PDF(s) em {args.entrada}", file=sys.stderr)
+        resumos, falhas = [], []
+        for pdf in pdfs:
+            try:
+                resumos.append(processar_um(pdf, args.out, args.modelo,
+                                            args.pdf_nativo, args.planilha))
+            except SystemExit:
+                raise  # erros de configuração (ex.: sem API key) param tudo
+            except Exception as e:  # um PDF problemático não derruba o lote
+                print(f"FALHA em {pdf.name}: {e}", file=sys.stderr)
+                falhas.append(pdf.name)
+        if resumos:
+            csv_path = escrever_resumo_lote(resumos, args.out)
+            print(f"Resumo do lote: {csv_path}")
+        print(f"Concluído: {len(resumos)} ok, {len(falhas)} falha(s).")
+        if falhas:
+            print("Falhas: " + ", ".join(falhas))
+        print("Lembrete: a IA PROPÕE, o PERITO DECIDE — confira cada relatório.")
+        return
 
-    print(f"Extraindo dados com {args.modelo}...", file=sys.stderr)
-    dados, uso = extrair_com_claude(conteudo, args.modelo)
-
-    # Salva JSON
-    json_path = args.out / f"{base}_extracao.json"
-    json_path.write_text(dados.model_dump_json(indent=2), encoding="utf-8")
-    # Salva relatório
-    md_path = args.out / f"{base}_relatorio.md"
-    md_path.write_text(gerar_relatorio_md(dados, args.pdf.name, uso), encoding="utf-8")
-
-    print(f"OK: {json_path}")
-    print(f"OK: {md_path}")
-
-    if args.planilha:
-        destino = args.out / f"{base}_liquidacao_preenchida.xlsx"
-        preencher_planilha(dados, args.planilha, destino)
-
-    # Resumo no terminal
-    n = len(dados.verbas_deferidas)
-    rev = len(dados.campos_para_revisar)
-    print(f"Resumo: {n} verba(s) identificada(s); {rev} campo(s) para revisar.")
+    # MODO ÚNICO
+    r = processar_um(args.entrada, args.out, args.modelo, args.pdf_nativo, args.planilha)
+    print(f"Resumo: {r['verbas']} verba(s); {r['campos_para_revisar']} campo(s) para revisar.")
     print("Lembrete: a IA PROPÕE, o PERITO DECIDE — confira tudo no documento.")
 
 

@@ -37,7 +37,28 @@ python extrator_liquidacao.py processo.pdf --out ./saida \
 
 # PDF escaneado (sem texto): envia o PDF ao modelo
 python extrator_liquidacao.py processo.pdf --pdf-nativo
+
+# MODO LOTE: processa todos os PDFs de uma pasta de uma vez
+python extrator_liquidacao.py ./pasta_com_processos --out ./saida
 ```
+
+### Modo lote
+Aponte a entrada para uma **pasta**: o extrator processa todos os `*.pdf`, gera
+`*_extracao.json` e `*_relatorio.md` por arquivo e um **`_resumo_lote.csv`** consolidado
+(processo, reclamante, nº de verbas, campos para revisar). Um PDF problemático é
+registrado como falha e não derruba o lote.
+
+## Exemplo e testes
+```bash
+# Gera um PDF de SENTENÇA FICTÍCIA para teste (dados inventados)
+python exemplos/gerar_exemplo.py        # cria exemplos/sentenca_exemplo.pdf
+
+# Roda a bateria de testes (offline; integração só com ANTHROPIC_API_KEY)
+python test_extrator.py                 # ou: pytest test_extrator.py
+```
+Os testes offline cobrem schema, relatório, extração de texto do PDF de exemplo e
+pré-preenchimento da planilha. O teste de **integração** (chama a API e consome créditos)
+só roda se `ANTHROPIC_API_KEY` estiver definida; caso contrário é **pulado**, não falha.
 
 ## Fluxo recomendado (ponta a ponta)
 1. Rode o extrator no PDF do processo → confira o `*_relatorio.md` (checklist de revisão).
