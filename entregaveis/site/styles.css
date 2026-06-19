@@ -1,0 +1,107 @@
+/* JM NFE Consultoria — identidade visual (entregável 04)
+   Paleta: Azul Petróleo #0B2A3A · Azul Confiança #11507A · Ciano #1FA8A6 */
+:root{
+  --azul-prof:#0B2A3A; --azul-conf:#11507A; --ciano:#1FA8A6;
+  --texto:#1A1A1A; --texto2:#5A6B73; --claro:#F5F7F8; --branco:#FFFFFF;
+  --radius:14px; --maxw:1140px; --sombra:0 8px 30px rgba(11,42,58,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--texto);line-height:1.6;background:var(--branco)}
+h1,h2,h3{font-family:'Montserrat',sans-serif;font-weight:700;color:var(--azul-prof);line-height:1.2}
+a{color:var(--azul-conf);text-decoration:none}
+.container{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.btn{display:inline-block;padding:14px 26px;border-radius:var(--radius);font-weight:600;
+  font-family:'Montserrat',sans-serif;transition:.2s;cursor:pointer;border:0}
+.btn-primary{background:var(--ciano);color:#04212a}
+.btn-primary:hover{filter:brightness(1.07);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--branco);border:1.5px solid rgba(255,255,255,.5)}
+.btn-ghost:hover{border-color:var(--ciano);color:var(--ciano)}
+.tag{display:inline-block;font-family:'Montserrat',sans-serif;font-weight:600;font-size:.78rem;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ciano);margin-bottom:14px}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:50;background:rgba(11,42,58,.96);backdrop-filter:blur(6px)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{font-family:'Montserrat',sans-serif;font-weight:700;font-size:1.3rem;color:var(--branco);letter-spacing:.02em}
+.logo span{color:var(--ciano)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{color:#d7e2e8;font-size:.95rem}
+.nav-links a:hover{color:var(--ciano)}
+.nav .btn{padding:10px 18px}
+.menu-toggle{display:none;background:none;border:0;color:#fff;font-size:1.6rem;cursor:pointer}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--azul-prof) 0%,#0e3346 60%,var(--azul-conf) 100%);
+  color:var(--branco);padding:88px 0 96px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-120px;top:-80px;width:420px;height:420px;
+  border:1px solid rgba(31,168,166,.25);border-radius:50%}
+.hero::before{content:"";position:absolute;right:40px;bottom:-140px;width:300px;height:300px;
+  border:1px solid rgba(31,168,166,.18);border-radius:50%}
+.hero h1{color:#fff;font-size:2.7rem;max-width:760px}
+.hero p{color:#cddbe2;font-size:1.18rem;max-width:640px;margin:22px 0 32px}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+
+/* SECOES */
+section{padding:74px 0}
+.section-head{max-width:720px;margin-bottom:44px}
+.section-head h2{font-size:2rem}
+.section-head p{color:var(--texto2);font-size:1.05rem;margin-top:10px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{background:var(--branco);border:1px solid #e6ecee;border-radius:var(--radius);padding:30px;
+  box-shadow:var(--sombra);transition:.2s}
+.card:hover{transform:translateY(-4px);border-color:var(--ciano)}
+.card .ico{width:46px;height:46px;border-radius:12px;background:rgba(31,168,166,.12);
+  display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:16px}
+.card h3{font-size:1.18rem;margin-bottom:8px}
+.card p{color:var(--texto2);font-size:.97rem}
+.bg-claro{background:var(--claro)}
+
+/* SERVICOS */
+.nucleo{background:var(--azul-prof);color:#fff;border-radius:var(--radius);padding:38px;margin-bottom:24px}
+.nucleo h3{color:#fff;font-size:1.4rem}
+.nucleo .tag{color:var(--ciano)}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.chip{background:rgba(255,255,255,.08);border:1px solid rgba(31,168,166,.35);color:#e7f0f2;
+  padding:8px 14px;border-radius:999px;font-size:.88rem}
+.escada{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.escada .chip{background:var(--claro);border:1px solid #dde5e8;color:var(--texto2)}
+
+/* DIFERENCIAL */
+.dif{background:linear-gradient(135deg,#0e3346,var(--azul-conf));color:#fff;border-radius:var(--radius);
+  padding:50px;text-align:center}
+.dif h2{color:#fff}.dif p{color:#cddbe2;max-width:680px;margin:14px auto 0}
+
+/* CTA / FORM */
+.cta{background:var(--claro)}
+.form-card{background:#fff;border-radius:var(--radius);box-shadow:var(--sombra);padding:36px;max-width:680px;margin:0 auto}
+.form-card label{display:block;font-weight:600;font-size:.9rem;margin:14px 0 6px}
+.form-card input,.form-card select,.form-card textarea{width:100%;padding:12px 14px;border:1px solid #d4dde0;
+  border-radius:10px;font-family:inherit;font-size:.97rem}
+.form-card textarea{min-height:110px;resize:vertical}
+.form-card .btn{margin-top:22px;width:100%}
+.disclaimer{font-size:.8rem;color:var(--texto2);margin-top:16px;text-align:center}
+
+/* FOOTER */
+footer{background:var(--azul-prof);color:#b9c8cf;padding:48px 0 28px;font-size:.9rem}
+footer .logo{margin-bottom:14px}
+.foot-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px}
+footer a{color:#b9c8cf}footer a:hover{color:var(--ciano)}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.1);margin-top:28px;padding-top:18px;font-size:.82rem}
+
+/* WHATSAPP FLUTUANTE */
+.wpp{position:fixed;right:22px;bottom:22px;z-index:60;background:#25D366;color:#fff;width:58px;height:58px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.7rem;
+  box-shadow:0 6px 20px rgba(0,0,0,.25);transition:.2s}
+.wpp:hover{transform:scale(1.08)}
+
+/* RESPONSIVO */
+@media(max-width:860px){
+  .nav-links{display:none;position:absolute;top:72px;left:0;right:0;background:var(--azul-prof);
+    flex-direction:column;padding:18px 24px;gap:16px}
+  .nav-links.open{display:flex}
+  .menu-toggle{display:block}
+  .grid-3{grid-template-columns:1fr}
+  .hero h1{font-size:2rem}.hero p{font-size:1.05rem}
+  .dif,.nucleo{padding:30px}
+}

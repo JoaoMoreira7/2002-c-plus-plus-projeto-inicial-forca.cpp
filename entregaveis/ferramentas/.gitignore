@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*_extracao.json
+*_relatorio.md
+*_liquidacao_preenchida.xlsx
+_resumo_lote.csv
+_teste_*.xlsx
+
+.venv/
+demo/
